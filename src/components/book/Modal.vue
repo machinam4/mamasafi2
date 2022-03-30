@@ -1,15 +1,15 @@
 <template>
-  <div class="fixed inset-0 flex items-center justify-center">
+  <!-- <div class="fixed inset-0 flex items-center justify-center">
     <button
       type="button"
-      @click="openModal"
+      
       class="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
     >
       Open dialog
     </button>
-  </div>
-  <TransitionRoot appear :show="isOpen" as="template">
-    <Dialog as="div" @close="closeModal">
+  </div> -->
+  <TransitionRoot appear :show="isOpenValue" as="template">
+    <Dialog as="div">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
           <TransitionChild
@@ -42,25 +42,16 @@
             >
               <DialogTitle
                 as="h3"
-                class="text-lg font-medium leading-6 text-gray-900"
+                class="text-lg uppercase font-bold font-medium leading-6 text-gray-900"
               >
-                Payment successful
+                <slot name="modal_title" />
               </DialogTitle>
               <div class="mt-2">
-                <p class="text-sm text-gray-500">
-                  Your payment has been successfully submitted. We’ve sent you
-                  an email with all of the details of your order.
-                </p>
+                <slot name="modal_content" />
               </div>
 
               <div class="mt-4">
-                <button
-                  type="button"
-                  class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                  @click="closeModal"
-                >
-                  Got it, thanks!
-                </button>
+                <slot name="modal_footer" />
               </div>
             </div>
           </TransitionChild>
@@ -71,21 +62,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 import {
-  TransitionRoot,
   TransitionChild,
+  TransitionRoot,
   Dialog,
   DialogOverlay,
   DialogTitle,
-} from '@headlessui/vue'
+} from "@headlessui/vue";
 
-const isOpen = ref(true)
-
-function closeModal() {
-  isOpen.value = false
-}
-function openModal() {
-  isOpen.value = true
-}
+// const isOpen = ref(true)
+const props = defineProps({
+  isOpenValue: false,
+});
+// const props = ["isOpenValue"]
+// console.log(this.isOpenValue)
 </script>
