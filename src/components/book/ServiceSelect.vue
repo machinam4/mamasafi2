@@ -44,11 +44,66 @@
         {{ modal_data.name }}
       </template>
       <template #modal_content>
+        <div v-show="modal_data.sub_service">
+          <Disclosure  v-for="sub_service in modal_data.sub_service"
+          :key="sub_service.name" v-slot="{ open }">
+          <DisclosureButton 
+          :class="open ? 'bg-blue-500' : ''"
+           class="flex justify-between hover:border hover:border-blue-500 w-full px-5 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-radial transition-all duration-500"
+          >
+          <SortDescendingIcon
+            :class="open ? 'transform rotate-180' : ''"
+            class="w-8 h-8 text-gray-300"
+          />
+            <p 
+            :class="open ? 'text-white' : 'text-blue-500'"
+            class="font-bold uppercase ">{{sub_service.name}}</p> 
+            <ChevronUpIcon
+            :class="open ? 'transform rotate-180 text-white' : 'text-blue-500'"
+            class="w-8 h-8"
+          />
+          </DisclosureButton>
+          <DisclosurePanel class="text-gray-500">
+            <div
+              class="text-sm text-gray-500 flex"
+              v-for="service in sub_service.to"
+              :key="service.name"
+            >
+            
+              <button
+                @click="goToNext(service)"
+                class="hover:border hover:border-blue-500 w-full active:bg-blue-600 px-5 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-radial transition-all duration-500"
+                type="button"
+              >
+                <div class="grid grid-cols-2 gaps-4 flex justify-center">
+                  <div>
+                    <p class="flex items-start font-bold uppercase text-blue-500">
+                      {{ service.name }}
+                    </p>
+                    <p class="flex items-start text-sm text-gray-500">
+                      {{ service.description }}
+                    </p>
+                  </div>
+                  <div class="ml-auto">
+                    <p class="font-bold uppercase text-blue-500">
+                      KSHS&nbsp;{{ service.variation.price }} <span>
+                      </span>
+                    </p>
+                    <p class="text-sm text-gray-500">starts from</p>
+                  </div>
+                </div>
+              </button>
+            </div>`
+          </DisclosurePanel>
+        </Disclosure>
+        </div>
+        
         <div
           class="text-sm text-gray-500 flex"
           v-for="service in modal_data.to"
           :key="service.name"
         >
+         
           <button
             @click="goToNext(service)"
             class="hover:border hover:border-blue-500 w-full active:bg-blue-600 px-5 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-radial transition-all duration-500"
@@ -65,7 +120,8 @@
               </div>
               <div class="ml-auto">
                 <p class="font-bold uppercase text-blue-500">
-                  KSHS&nbsp;{{ service.variation.price }}
+                  KSHS&nbsp;{{ service.variation.price }} <span>
+                  </span>
                 </p>
                 <p class="text-sm text-gray-500">starts from</p>
               </div>
@@ -74,6 +130,7 @@
         </div>
       </template>
       <template #modal_footer>
+       
         <button
           type="button"
           @click="toggleModal('close')"
@@ -166,12 +223,21 @@
 
 <script>
 import Modal from "./Modal.vue";
+import {
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+  } from '@headlessui/vue'
+import { ChevronUpIcon, SortDescendingIcon} from '@heroicons/vue/solid'
 import { ref } from "vue";
 const products = [
   {
     id: 1,
     name: "Laundry & House Chores",
-    to: [
+    sub_service:[
+      {
+        name: "Home Visit (Mama Fua)",
+        to: [
       {
         name: "Laundry Only",
         description: "service cleaning & Laundry",
@@ -245,6 +311,85 @@ const products = [
         
       },
     ],
+      },
+      {
+        name: "Pick & Drop (Machine Wash)",
+        to: [
+      {
+        name: "Laundry Only",
+        description: "service cleaning & Laundry",
+        variation:
+          {
+            name: "Duration",
+            unit_measure: "Hours",
+            price: "200",
+            maximum: "5"
+          }
+
+      },
+      {
+        name: "Laundry + Utensils",
+        description: "service cleaning & Laundry",
+        variation:
+          {
+            name: "Duration",
+            unit_measure: "Hours",
+            price: "400",
+            maximum: "6"
+          }
+        
+      },
+      {
+        name: "Laundry + Utensils",
+        description: "service cleaning & Laundry",
+        variation:
+          {
+            name: "Duration",
+            unit_measure: "Hours",
+            price: "400",
+            maximum: "6"
+          }
+        
+      },
+      {
+        name: "Laundry + House Cleaning",
+        description: "service cleaning & Laundry",
+        variation:
+          {
+            name: "Duration",
+            unit_measure: "Hours",
+            price: "600",
+            maximum: "8"
+          }
+        
+      },
+      {
+        name: "Laundry  + Utensils + House Cleaning",
+        description: "service cleaning & Laundry",
+        variation:
+          {
+            name: "Duration",
+            unit_measure: "Hours",
+            price: "800",
+            maximum: "10"
+          }
+        
+      },
+      {
+        name: "Laundry  + All Chores",
+        description: "service cleaning & Laundry",
+        variation:
+          {
+            name: "Duration",
+            unit_measure: "Hours",
+            price: "1000",
+            maximum: "10"
+          }
+        
+      },
+    ],
+      },
+    ],
     imageSrc: "/imgs/services/mamasafi_laundry.webp",
     imageAlt: "LAundry & House Chores",
   },
@@ -303,79 +448,157 @@ const products = [
   {
     id: 1,
     name: "Upholtery Cleaning",
-    to: [
+    sub_service: [
       {
         name: "Seats",
-        description: "Seats cleaning",
-        variation:
-          {
-            name: "Number of",
-            unit_measure: "Seats",
-            price: "200",
-            maximum: "10"
-          }
-
+        to: [
+              {
+                name: "Fabric Seats",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Seats",
+                    price: "600",
+                    maximum: "8"
+                  }
+                
+              },
+              {
+                name: "Leather Seats",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Seats",
+                    price: "800",
+                    maximum: "10"
+                  }
+                
+              },
+              {
+                name: "Dinning Seats",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Seats",
+                    price: "1000",
+                    maximum: "10"
+                  }
+                
+              },
+              {
+                name: "Office Chair",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Chairs",
+                    price: "1000",
+                    maximum: "10"
+                  }
+                
+              },
+            ]
       },
       {
         name: "Carpets",
-        description: "Carpet cleaning",
-        variation:
-          {
-            name: "Number of",
-            unit_measure: "Carpets",
-            price: "200",
-            maximum: "6"
-          }
-        
+        to: [
+              {
+                name: "Fluffy Carpets",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Carpets",
+                    price: "600",
+                    maximum: "8"
+                  }
+                
+              },
+              {
+                name: "Non-Fluffy Carpets",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Carpets",
+                    price: "800",
+                    maximum: "10"
+                  }
+                
+              },
+              {
+                name: "Woolen Carpets",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Carpets",
+                    price: "1000",
+                    maximum: "10"
+                  }
+                
+              },
+              {
+                name: "Rugs",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Rugs",
+                    price: "1000",
+                    maximum: "10"
+                  }
+                
+              },
+            ]
       },
       {
-        name: "Bed/mattress",
-        description: "service cleaning",
-        variation:
-          {
-            name: "Number of",
-            unit_measure: "Beds/Mattress",
-            price: "400",
-            maximum: "6"
-          }
+        name: "Bed/mattress",       
+        to: [
+              {
+                name: "Fabric bed only",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Beds",
+                    price: "600",
+                    maximum: "8"
+                  }
+                
+              },
+              {
+                name: "Fabric bed with Mattress",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Beds",
+                    price: "800",
+                    maximum: "10"
+                  }
+                
+              },
+              {
+                name: "Mattress Only",
+                description: "service cleaning",
+                variation:
+                  {
+                    name: "Number of",
+                    unit_measure: "Mattresses",
+                    price: "1000",
+                    maximum: "10"
+                  }
+                
+              },
+            ]
+          
         
       },
-      {
-        name: "Fabric bed only",
-        description: "service cleaning",
-        variation:
-          {
-            name: "Number of",
-            unit_measure: "Beds",
-            price: "600",
-            maximum: "8"
-          }
-        
-      },
-      {
-        name: "Fabric bed with Mattress",
-        description: "service cleaning",
-        variation:
-          {
-            name: "Number of",
-            unit_measure: "Beds",
-            price: "800",
-            maximum: "10"
-          }
-        
-      },
-      {
-        name: "Mattress Only",
-        description: "service cleaning",
-        variation:
-          {
-            name: "Number of",
-            unit_measure: "Mattresses",
-            price: "1000",
-            maximum: "10"
-          }
-        
-      },
+      
     ],
     imageSrc: "/imgs/services/mamasafi_upholstery_cleaning.jpg",
     imageAlt: "Upholstery Cleaning",
@@ -434,6 +657,11 @@ var ItemCount = 1;
 export default {
   components: {
     Modal,
+    ChevronUpIcon,
+    SortDescendingIcon,
+     Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
   },
   data() {
     return {
