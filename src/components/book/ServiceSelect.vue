@@ -141,6 +141,7 @@
       </template>
     </Modal>    
   </div>
+  <!-- variation modal -->
   <Modal :isOpenValue="variationsShow" v-if="variationsShow">
       <template #modal_title>
         {{ modal_data.name }}
@@ -219,6 +220,103 @@
         </div>
       </template>
     </Modal> 
+  <!-- date modal -->
+  <Modal :isOpenValue="datesShow" v-if="datesShow">
+    <template #modal_title>
+      Select Date
+    </template>
+    <template #modal_content>
+      <div class="md:grid md:grid-cols-6 md:gap-4">
+        <div class="md:col-span-3  md:mr-8 py-10">
+          <v-date-picker 
+      v-model="date" 
+      :min-date='new Date()'
+      :attributes="dateAttrs"
+      mode="datetime"
+      :minute-increment="30"
+      :valid-hours="{ min: 7, max: 17 }"
+      is-expanded
+      />
+        </div>
+        <div class="md:col-span-3 py-10">
+            <div class="">
+              <p class="flex items-start text-sm text-gray-500">
+                Booking Date
+              </p>
+              <p class="flex items-start text-sm uppercase text-blue-500">
+                {{ date }}
+              </p>                
+            </div>
+          </div>
+      </div>
+    </template>
+    <template #modal_footer>
+      <div class="flex justify-between">
+        <button
+        type="button"
+        @click="goToNext('close')"
+        class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        @click="goToNext('selectAgent')"
+        class="inline-flex justify-center mr-0 px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+      >
+        Next
+      </button>
+      </div>
+    </template>
+  </Modal>
+  <!-- Agent modal -->
+  <Modal :isOpenValue="agentsShow" v-if="agentsShow">
+    <template #modal_title>
+      Select Mamasafi agent
+    </template>
+    <template #modal_content>
+      <div class="md:grid md:grid-cols-6 md:gap-4">
+        <div class="md:col-span-3  md:mr-4 py-5 h-96 overflow-auto">
+          <div class="mt-6 grid grid-cols-1 gap-y-5 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+            <div v-for="mamasafi in mamasafis" :key="mamasafi.id" class="group relative">
+              <div class="w-full sm:h-50 min-h-50 bg-gray-200 aspect-w-1 aspect-h-1 flex flex-col items-center md:py-2 rounded-md overflow-hidden group-hover:opacity-75 lg:h-50 lg:aspect-none">
+                <img :src="mamasafi.imageSrc" :alt="mamasafi.imageAlt" class="w-full h-full md:rounded-full md:ring-2 md:ring-white object-center object-cover lg:w-16 lg:h-16" />
+                <p class="mt-1 text-sm text-gray-500">{{ mamasafi.color }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-3 py-10">
+            <div class="">
+              <p class="flex items-start text-sm text-gray-500">
+                Booking Date
+              </p>
+              <p class="flex items-start text-sm uppercase text-blue-500">
+                123
+              </p>                
+            </div>
+          </div>
+      </div>
+    </template>
+    <template #modal_footer>
+      <div class="flex justify-between">
+        <button
+        type="button"
+        @click="goToNext('close')"
+        class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        @click="goToNext('selectAgent')"
+        class="inline-flex justify-center mr-0 px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+      >
+        Next
+      </button>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script>
@@ -649,9 +747,122 @@ const products = [
   },
   // More products...
 ];
+const mamasafis = [
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Sylvia',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+  {
+    id: 1,
+    name: 'Basic Tee',
+    href: '#',
+    imageSrc: 'https://source.unsplash.com/random/?profile,female',
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: '$35',
+    color: 'Jacline',
+  },
+]
 const serviceShow = ref(false);
 const variationsShow = ref(false);
+const datesShow = ref(false);
+const agentsShow = ref(false);
 var modal_data;
+var date;
 var ItemCount = 1;
 // var isOpenValue
 export default {
@@ -666,9 +877,20 @@ export default {
   data() {
     return {
       products,
+      mamasafis,
       serviceShow,
       variationsShow,
+      datesShow,
       ItemCount,
+      date,
+      dateAttrs: [
+        {
+          key: 'today',
+          dot: 'red',
+          dates: new Date(),
+        },
+      ],
+      agentsShow,
     };
   },
   methods: {
@@ -684,6 +906,12 @@ export default {
       this.serviceShow = false;
       if (service == "close") {
         this.variationsShow = !this.variationsShow;
+      } else if (service == "selectDate") {
+        this.variationsShow = false;
+        this.datesShow = !this.datesShow;
+      } else if (service == "selectAgent") {
+        this.datesShow = false;
+        this.agentsShow = !this.agentsShow;
       } else {
         this.variationsShow = !this.variationsShow;
         this.modal_data = service;
