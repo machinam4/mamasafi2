@@ -272,27 +272,87 @@
   <!-- Agent modal -->
   <Modal :isOpenValue="agentsShow" v-if="agentsShow">
     <template #modal_title>
-      Select Mamasafi agent
+      Available Mamasafi Agents
     </template>
     <template #modal_content>
       <div class="md:grid md:grid-cols-6 md:gap-4">
-        <div class="md:col-span-3  md:mr-4 py-5 h-96 overflow-auto">
-          <div class="mt-6 grid grid-cols-1 gap-y-5 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-            <div v-for="mamasafi in mamasafis" :key="mamasafi.id" class="group relative">
-              <div class="w-full sm:h-50 min-h-50 bg-gray-200 aspect-w-1 aspect-h-1 flex flex-col items-center md:py-2 rounded-md overflow-hidden group-hover:opacity-75 lg:h-50 lg:aspect-none">
+        <div class="md:col-span-3  md:mr-4 h-96 overflow-auto" v-if="!detailsShow">
+          <div class="mt-1 grid grid-cols-1 gap-y-5 gap-x-3 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-4">
+            <div v-for="mamasafi in mamasafis" :key="mamasafi.id" class="group relative"  @click="selectedMamasafi = mamasafi">
+              <div class="w-full group sm:h-50 min-h-50 bg-gray-200 group-hover:bg-gray-400 aspect-w-1 aspect-h-1 flex flex-col items-center md:py-2 rounded-md overflow-hidden group-hover:opacity-75 lg:h-50 lg:aspect-none">
                 <img :src="mamasafi.imageSrc" :alt="mamasafi.imageAlt" class="w-full h-full md:rounded-full md:ring-2 md:ring-white object-center object-cover lg:w-16 lg:h-16" />
-                <p class="mt-1 text-sm text-gray-500">{{ mamasafi.color }}</p>
+                <p class="mt-1 text-md group-hover:text-sm text-black">{{ mamasafi.name }}</p>
+                <button @click="toggleDetails(mamasafi)" class="mt-1 text-sm group-hover:text-blue-800 group-hover:underline text-black">View Details</button>
               </div>
+            </div>
+          </div>
+        </div>
+        <!-- agent details -->
+        <div class="col-span-3 h-96 overflow-auto" v-if="detailsShow">
+          <div class="block rounded-lg shadow-lg bg-white">
+            <div
+              class="overflow-hidden rounded-t-lg h-28"
+              style="background-color: #3b82f6"
+            >
+            <div class="flex justify-right px-1 py-1">
+              <button
+                type="button"
+                @click="detailsShow=!detailsShow"
+                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-black bg-red-500 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-700"
+              >
+                Close Details X
+              </button>
+            </div>
+            </div>
+            <div
+              class="w-1/2 -mt-12 overflow-hidden border border-2 border-white rounded-md mx-auto bg-white"
+            >
+              <img
+                :src="selectedMamasafi.imageSrc"
+                :alt="selectedMamasafi.imageAlt"
+              />
+            </div>
+            <div class="grid grid-cols-3 mt-2">
+              <div class="border-r-2">
+                <p class="flex items-start text-sm text-gray-500">
+                  Name
+                </p>
+                <p class="flex items-start text-md font-semibold uppercase text-blue-500" v-if="selectedMamasafi">
+                  {{selectedMamasafi.name}}
+                </p>                
+              </div>
+              <div class="border-r-2 ml-2">
+                <p class="flex items-start text-sm text-gray-500">
+                  Years Experience
+                </p>
+                <p class="flex items-start text-md font-semibold uppercase text-blue-500" v-if="selectedMamasafi">
+                  10
+                </p>                
+              </div>
+              <div class="ml-2">
+                <p class="flex items-start text-sm text-gray-500">
+                  Jobs Done
+                </p>
+                <p class="flex items-start text-md font-semibold uppercase text-blue-500" v-if="selectedMamasafi">
+                  10
+                </p>                
+              </div>
+            </div>
+            <div>
+              <hr />
+              <p class="mt-4">
+                {{selectedMamasafi.description}}
+              </p>
             </div>
           </div>
         </div>
         <div class="md:col-span-3 py-10">
             <div class="">
               <p class="flex items-start text-sm text-gray-500">
-                Booking Date
+                Mamasafi
               </p>
-              <p class="flex items-start text-sm uppercase text-blue-500">
-                123
+              <p class="flex items-start text-sm uppercase text-blue-500" v-if="selectedMamasafi">
+                {{selectedMamasafi.name}}
               </p>                
             </div>
           </div>
@@ -750,118 +810,120 @@ const products = [
 const mamasafis = [
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Jacline',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Ba sic in black.",
     price: '$35',
-    color: 'Sylvia',
+    description: 'Sylvia, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Evelyne',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Sarah',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Charity',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Catherine',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Joyce',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Deborah',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Esther',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Ann',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Alice',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Priscah',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'Priscillah',
     href: '#',
     imageSrc: 'https://source.unsplash.com/random/?profile,female',
-    imageAlt: "Front of men's Basic Tee in black.",
+    imageAlt: "Front of men's Basic in black.",
     price: '$35',
-    color: 'Jacline',
+    description: 'Jacline, My Mamasafi got to my residence in less than 20 minutes. She cleaned and delivered more than I expected. Happy client. I shall be back.',
   },
 ]
 const serviceShow = ref(false);
 const variationsShow = ref(false);
 const datesShow = ref(false);
 const agentsShow = ref(false);
+const detailsShow = ref(false);
 var modal_data;
+var selectedMamasafi;
 var date;
 var ItemCount = 1;
 // var isOpenValue
@@ -881,6 +943,8 @@ export default {
       serviceShow,
       variationsShow,
       datesShow,
+      detailsShow,
+      selectedMamasafi,
       ItemCount,
       date,
       dateAttrs: [
@@ -926,7 +990,15 @@ export default {
       }else{
         this.ItemCount = parseInt(this.ItemCount) + parseInt(by);
       }       
-    }
+    },
+    toggleDetails(mamasafi){
+      this.detailsShow = !this.detailsShow;
+      this.selectedMamasafi = mamasafi;
+    },
+    testmethod(){
+    console.log("test successfull")
+  }
   },
+  
 };
 </script>
