@@ -144,32 +144,32 @@
   <!-- variation modal -->
   <Modal :isOpenValue="variationsShow" v-if="variationsShow">
       <template #modal_title>
-        {{ modal_data.name }}
+        {{ $store.state.service.name }}
       </template>
       <template #modal_content>
        <div class="md:grid md:grid-cols-6 md:gap-4">
          <div class="md:col-span-3  md:mr-8 py-10">
             <div class="pb-10">
                 <p class="flex justify-center font-bold uppercase text-blue-500">
-                  {{modal_data.variation.name}}
+                  {{$store.state.service.variation.name}}
                 </p>
                 <p class="flex justify-center text-sm text-gray-500">
-                  Maximum is {{modal_data.variation.maximum}}&nbsp;{{modal_data.variation.unit_measure}}
+                  Maximum is {{$store.state.service.variation.maximum}}&nbsp;{{$store.state.service.variation.unit_measure}}
                 </p>
             </div>
            <div class="flex justify-between">
             <button
             type="button"
-            @click="addItem(-1, modal_data.variation.maximum)"
+            @click="$store.commit('decreaseItemCount')"
             class="px-8 bg-blue-100 text-lg border border-transparent rounded-md rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             >-</button>
              <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                 <input 
-                type="number" v-model="ItemCount" name="count" class="text-center tx-bold mt-1 py-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                type="number" v-model="$store.state.ItemCount" name="count" class="text-center tx-bold mt-1 py-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
               </div>
             <button
             type="button"
-            @click="addItem(+1, modal_data.variation.maximum)"
+            @click="$store.commit('increaseItemCount', $store.state.service.variation.maximum)"
             class="px-8 mr-0 bg-blue-100 text-lg border border-transparent rounded-md rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             >+</button>
            </div>
@@ -181,20 +181,20 @@
                   Service
                 </p>
                 <p class="flex items-start text-sm uppercase text-blue-500">
-                  {{ modal_data.name }}
+                  {{ $store.state.service.name }}
                 </p>
                 <p class="flex items-start text-sm text-gray-500">
-                  Number of {{modal_data.variation.unit_measure}}
+                  Number of {{$store.state.service.variation.unit_measure}}
                 </p>
                 <p class="flex items-start text-sm uppercase text-blue-500">
-                   {{ItemCount}}
+                   {{$store.state.ItemCount}}
                 </p>
                 
               </div>
               <div class="ml-auto">
                 <p class="text-sm text-gray-500">Total Price</p>
                 <p class="font-bold uppercase text-blue-500">
-                  KSHS&nbsp;{{modal_data.variation.price*ItemCount}}
+                  KSHS&nbsp;{{$store.state.service.variation.price*$store.state.ItemCount}}
                 </p>
               </div>
             </div>
@@ -925,7 +925,6 @@ const detailsShow = ref(false);
 var modal_data;
 var selectedMamasafi;
 var date;
-var ItemCount = 1;
 // var isOpenValue
 export default {
   components: {
@@ -945,7 +944,6 @@ export default {
       datesShow,
       detailsShow,
       selectedMamasafi,
-      ItemCount,
       date,
       dateAttrs: [
         {
@@ -978,18 +976,8 @@ export default {
         this.agentsShow = !this.agentsShow;
       } else {
         this.variationsShow = !this.variationsShow;
-        this.modal_data = service;
+        $store.commit('addServiceTocart', service);               
       }
-    },
-    addItem(by, maximum) {      
-      let value = parseInt(this.ItemCount) + parseInt(by);
-      if (value <= 1) {
-        this.ItemCount = 1
-      }else if(value > maximum) {
-        this.ItemCount = maximum
-      }else{
-        this.ItemCount = parseInt(this.ItemCount) + parseInt(by);
-      }       
     },
     toggleDetails(mamasafi){
       this.detailsShow = !this.detailsShow;

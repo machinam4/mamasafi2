@@ -1,13 +1,4 @@
 <template>
-  <!-- <div class="fixed inset-0 flex items-center justify-center">
-    <button
-      type="button"
-      
-      class="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-    >
-      Open dialog
-    </button>
-  </div> -->
   <TransitionRoot appear :show="isOpenValue" as="template">
     <Dialog as="div">
       <div class="fixed inset-0 z-10 overflow-y-auto overflow-x-auto">
@@ -47,11 +38,18 @@
                 <slot name="modal_title" />
               </DialogTitle>
               <div class="mt-2">
-                <slot name="modal_content" />
+                <div class="md:grid md:grid-cols-6 md:gap-4">
+                  <div class="md:col-span-4 md:mr-8 py-10 border-r-4 border-blue-700">
+                    <slot name="modal_content" />
+                  </div>
+                  <div class="md:col-span-2 py-10" v-if="$store.state.cartItems.service != ''">
+                    <slot name="modal_cart"/>
+                  </div>
+                </div>
               </div>
 
               <div class="mt-4">
-                <slot name="modal_footer" />
+                <slot name="modal_footer"/>
               </div>
             </div>
           </TransitionChild>
@@ -71,10 +69,7 @@ import {
   DialogTitle,
 } from "@headlessui/vue";
 
-// const isOpen = ref(true)
 const props = defineProps({
   isOpenValue: false,
 });
-// const props = ["isOpenValue"]
-// console.log(this.isOpenValue)
 </script>
