@@ -39,7 +39,7 @@
               </DialogTitle>
               <div class="mt-2">
                 <div class="md:grid md:grid-cols-6 md:gap-4">
-                  <div class="md:col-span-4 md:mr-8 py-10 border-r-4 border-blue-700">
+                  <div class="md:col-span-4 md:mr-8 py-10 md:border-r-4 md:border-blue-700">
                     <slot name="modal_content" />
                   </div>
                   <div class="md:col-span-2 py-10" v-if="$store.state.cartItems.service != ''">

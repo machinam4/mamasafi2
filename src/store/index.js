@@ -11,6 +11,7 @@ export default createStore({
             date: '',
             mamasafi: '',
             units: 1,
+            location: '',
         }
     },
     mutations:{ 

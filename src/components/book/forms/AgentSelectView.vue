@@ -226,7 +226,7 @@ const mamasafis = [
 ];
 const detailsShow = ref(false);
 function toggleDetails(mamasafi) {
-  this.detailsShow = !this.detailsShow;
+  detailsShow.value = !detailsShow.value;
   store.commit('selectMamasafi', mamasafi)
 };
 

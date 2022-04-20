@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import BookView from '../views/BookView.vue'
 import ServiceView from '../views/ServiceView.vue'
-import ServiceSelect from '../components/book/ServiceSelect2.vue'
+import ServiceSelect from '../components/book/ServiceSelect2.vue' 
 import ServiceForm from '../components/book/ServiceForm.vue'
 
 const router = createRouter({

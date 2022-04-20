@@ -104,9 +104,7 @@
                 </div>
               </div>
               <div>
-                <label for="email-address" class="sr-only"
-                  >Description</label
-                >
+                <label for="email-address" class="sr-only">Description</label>
                 <textarea
                   id="email-address"
                   name="email"
@@ -144,29 +142,30 @@
                 </a>
               </div>
             </div>
-            <div class="flex flex-items-center justify-between py-2 ">
-                 <hr><p>or</p><hr>
+            <div class="flex flex-items-center justify-between py-2">
+              <hr />
+              <p>or</p>
+              <hr />
             </div>
-           
 
             <div>
               <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                      <button
-                type="submit"
-                class="group relative w-full flex justify-center py-2 px-4 border border-blue-700 text-sm font-medium rounded-md text-blue-700 bg-white hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in with Facebook
-              </button>
-                  </div>
-                  <div>
-                      <button
-                type="submit"
-                class="group relative w-full flex justify-center py-2 px-4 border border-gray-700 text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in with Google 
-              </button>
-                  </div>
+                <div>
+                  <button
+                    type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-blue-700 text-sm font-medium rounded-md text-blue-700 bg-white hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Sign in with Facebook
+                  </button>
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-gray-700 text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Sign in with Google
+                  </button>
+                </div>
               </div>
             </div>
           </form>

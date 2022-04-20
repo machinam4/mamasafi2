@@ -48,6 +48,7 @@
         <VariationsView v-if="$store.state.modalActive == 'variationModal'" />
         <DateSelectView v-if="$store.state.modalActive == 'dateSelectModal'" />
         <AgentSelectView v-if="$store.state.modalActive == 'agentSelectModal'"/>
+        <LocationView  v-if="$store.state.modalActive == 'locationModal'"/>
         <LoginUserView v-if="$store.state.modalActive == 'userModal'"/>
       </template>
       <template #modal_cart v-if="$store.state.cartItems.service != ''">
@@ -83,6 +84,15 @@
             v-if="$store.state.cartItems.mamasafi"
           >
             {{ $store.state.cartItems.mamasafi.name }}
+          </p>
+        </div>
+        <div class="mamasafi" v-if="$store.state.cartItems.location != ''">
+          <p class="flex items-start text-sm text-gray-500">Location</p>
+          <p
+            class="flex items-start text-sm uppercase text-blue-500"
+            v-if="$store.state.cartItems.location"
+          >
+            {{ $store.state.cartItems.location }}
           </p>
         </div>
         <div class="total_price mt-5">
@@ -128,7 +138,9 @@ import ServicesView from "./forms/ServicesView.vue";
 import DateSelectView from "./forms/DateSelectView.vue";
 import AgentSelectView from "./forms/AgentSelectView.vue";
 import VariationsView from "./forms/VariationsView.vue";
+import LocationView from "./forms/LocationView.vue";
 import LoginUserView from "./forms/LoginUserView.vue"
+import LocationView1 from "./forms/LocationView.vue";
 const store = useStore();
 const products = [
   {
@@ -492,16 +504,16 @@ const serviceShow = ref(false);
 
 function toggleModal(product) {
   if (product == "close") {
-    this.serviceShow = !this.serviceShow;
+    serviceShow.value = !serviceShow.value;
   } else {
-    this.serviceShow = !this.serviceShow;
+    serviceShow.value = !serviceShow.value;
     store.commit("setActiveModal", "serviceModal");
     store.commit("serviceSelect", product);
   }
 }
 function goToNext(modal) {
   if (modal == "close") {
-    this.serviceShow = !this.serviceShow;
+    serviceShow.value = !serviceShow.value;
   } else {
     switch (store.state.modalActive) {
       case "serviceModal":
@@ -514,14 +526,18 @@ function goToNext(modal) {
         break;
       case "dateSelectModal":
         store.commit("setActiveModal", "agentSelectModal");
-        store.commit("setNextModal", "userModal");
+        store.commit("setNextModal", "locationModal");
         break;
       case "agentSelectModal":
+        store.commit("setActiveModal", "locationModal");
+        store.commit("setNextModal", "userModal");
+        break;
+      case "locationModal":
         store.commit("setActiveModal", "userModal");
         store.commit("setNextModal", "paymentsModal");
         break;
       default:
-        this.serviceShow = !this.serviceShow;
+        serviceShow.value = !serviceShow.value;
         break;
     }
   }
